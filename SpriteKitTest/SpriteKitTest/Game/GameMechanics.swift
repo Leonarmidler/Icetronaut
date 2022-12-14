@@ -129,7 +129,7 @@ extension GameScene {
         switch score {
         case 10: difficulty = 0.8
         case 20: difficulty = 0.6
-        case 30: difficulty = 0.5
+        case 30: difficulty = 0.4
         case 100: difficulty = 0.25
         case 150: difficulty = 0.1
         default:
