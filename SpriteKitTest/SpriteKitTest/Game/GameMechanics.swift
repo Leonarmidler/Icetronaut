@@ -20,11 +20,12 @@ extension GameScene {
                 runAnimation()
                 moveBackground(bg: childNode(withName: "bgx6") as! SKSpriteNode)
                 randomSpawnBackground()
-                randomSpawnIcecream()
+                randomChoose()
                 
             } else {
                 if !isJumping {
                     childNode(withName: "player")!.removeAllActions()
+                    childNode(withName: "walkingSound")?.run(SKAction.stop())
                     jump()
                     isJumping = true
                 }
@@ -58,9 +59,25 @@ extension GameScene {
         }
     }
     
+    func randomChoose(){
+        let choice = Int.random(in: 1...2)
+        
+        if choice == 1 {
+            randomSpawnPickle()
+        } else if choice == 2 {
+            randomSpawnIcecream()
+        }
+    }
+    
+    func randomSpawnPickle(){
+        let spawn = SKAction.run {self.spawnPickle()}
+        let sequence = SKAction.sequence([spawn, self.waitTime(), SKAction.run{self.randomChoose()}])
+        self.run(sequence)
+    }
+    
     func randomSpawnIcecream(){
         let spawn = SKAction.run {self.spawnIcecream()}
-        let sequence = SKAction.sequence([spawn, self.waitTime(), SKAction.run{self.randomSpawnIcecream()}])
+        let sequence = SKAction.sequence([spawn, self.waitTime(), SKAction.run{self.randomChoose()}])
         self.run(sequence)
     }
     
@@ -127,11 +144,10 @@ extension GameScene {
     func setDifficulty(){
         
         switch score {
-        case 10: difficulty = 0.8
-        case 20: difficulty = 0.6
-        case 30: difficulty = 0.4
-        case 100: difficulty = 0.25
-        case 150: difficulty = 0.1
+        case 9: difficulty = 0.8
+        case 19: difficulty = 0.6
+        case 29: difficulty = 0.5
+        case 99: difficulty = 0.4
         default:
             break
         }
@@ -189,6 +205,14 @@ extension GameScene: SKPhysicsContactDelegate {
             self.removeAllActions()
             gameOver()
 
+        }
+        
+        if contact.bodyA.node?.name == "player" && contact.bodyB.node?.name == "pickle" || contact.bodyB.node?.name == "player" && contact.bodyA.node?.name == "pickle"{
+            
+            self.removeAllChildren()
+            self.removeAllActions()
+            gameOver()
+            
         }
         
     }

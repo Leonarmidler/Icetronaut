@@ -24,6 +24,7 @@ extension GameScene {
         let loopRun = SKAction.repeatForever(runAnimation)
         
         childNode(withName: "player")!.run(loopRun)
+        childNode(withName: "walkingSoung")?.run(SKAction.play())
         
     }
     
@@ -56,20 +57,32 @@ extension GameScene {
         
     }
     
-    func icecreamAnimation(item: SKSpriteNode){
-        
+    func icAnimation(ic: SKSpriteNode){
         let idleTextures = [
-            SKTexture(imageNamed: "gelato1"),
-            SKTexture(imageNamed: "gelato2"),
-            SKTexture(imageNamed: "gelato3"),
-            SKTexture(imageNamed: "gelato4")
+            SKTexture(imageNamed: "icecream11"),
+            SKTexture(imageNamed: "icecream12"),
+            SKTexture(imageNamed: "icecream13"),
+            SKTexture(imageNamed: "icecream14")
         ]
         
         let idleAnimation = SKAction.animate(with: idleTextures, timePerFrame: 0.2)
         let loopIdle = SKAction.repeatForever(idleAnimation)
         
-        item.run(loopIdle)
+        ic.run(loopIdle)
     }
+    
+    func pickleAnimation(pickle: SKSpriteNode){
+        let idleTextures = [
+            SKTexture(imageNamed: "picklejar11"),
+            SKTexture(imageNamed: "picklejar12"),
+            SKTexture(imageNamed: "picklejar13"),
+            SKTexture(imageNamed: "picklejar14")
+        ]
+        
+        let idleAnimation = SKAction.animate(with: idleTextures, timePerFrame: 0.2)
+        let loopIdle = SKAction.repeatForever(idleAnimation)
+        
+        pickle.run(loopIdle)    }
     
     func moveBackground(bg: SKSpriteNode) {
         

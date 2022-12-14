@@ -7,8 +7,11 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
 class GameScene: SKScene {
+    
+    //GAME SOUNDS
     
     //GAME PARAMETERS
     public var timeSpawn:CGFloat = 1.5
@@ -40,6 +43,17 @@ class GameScene: SKScene {
         addBackground()
         addPlayer()
         addScore()
+        
+        addSounds()
+        
+    }
+    
+    func addSounds(){
+        
+        let walkingSound = SKAudioNode(fileNamed: "walkingSound.mp3")
+        
+        walkingSound.name = "walkingSound"
+        addChild(walkingSound)
         
     }
     
@@ -160,8 +174,10 @@ class GameScene: SKScene {
     
     func spawnIcecream(){
     
+        print("icecream")
+        
         //SHELFS POSITIONS y:  115, 163, 235
-        let icecream = SKSpriteNode(imageNamed: "gelato1")
+        let icecream = SKSpriteNode(imageNamed: "icecream1")
         let yPosition = [115, 163, 235]
         
         icecream.setScale(1/5)
@@ -175,11 +191,35 @@ class GameScene: SKScene {
         icecream.physicsBody?.affectedByGravity = false
         
         moveItem(item: icecream)
-        self.icecreamAnimation(item: icecream)
+        self.icAnimation(ic: icecream)
         
         icecream.name = "icecream"
         addChild(icecream)
 
+    }
+    
+    func spawnPickle(){
+        
+        print("pickle")
+        let pickle = SKSpriteNode(imageNamed: "picklejar1")
+        let yPosition = [115, 163, 235]
+        
+        pickle.setScale(1/5)
+        
+        pickle.anchorPoint = CGPoint(x: 0, y: 0)
+        pickle.position = CGPoint(x: Int(4*bgSample.frame.width - pickle.frame.width/2) , y: yPosition.randomElement() ?? 0)
+        pickle.physicsBody = SKPhysicsBody(rectangleOf: pickle.size)
+
+        pickle.physicsBody?.isDynamic = false
+        pickle.physicsBody?.allowsRotation = false
+        pickle.physicsBody?.affectedByGravity = false
+        
+        moveItem(item: pickle)
+        self.pickleAnimation(pickle: pickle)
+        
+        pickle.name = "pickle"
+        addChild(pickle)
+        
     }
     
     func spawnSparkle(icPosition: CGPoint){
