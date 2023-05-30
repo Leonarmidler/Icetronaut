@@ -53,7 +53,7 @@ extension GameScene {
         let idleAnimation = SKAction.animate(with: idleTextures, timePerFrame: 0.4)
         let loopIdle = SKAction.repeatForever(idleAnimation)
         
-        childNode(withName: "player")!.run(loopIdle)
+        childNode(withName: "player")?.run(loopIdle)
         
     }
     
@@ -82,7 +82,8 @@ extension GameScene {
         let idleAnimation = SKAction.animate(with: idleTextures, timePerFrame: 0.2)
         let loopIdle = SKAction.repeatForever(idleAnimation)
         
-        pickle.run(loopIdle)    }
+        pickle.run(loopIdle)
+    }
     
     func moveBackground(bg: SKSpriteNode) {
         

@@ -11,21 +11,23 @@ import AVFoundation
 
 class GameScene: SKScene {
     
+
     //GAME SOUNDS
     
     //GAME PARAMETERS
-    public var timeSpawn:CGFloat = 1.5
-    public var timeMoveDistance:CGFloat = 1.5
-    public var itemMoveDistance:CGFloat = 256// bgSample.frame.width = 256
+    var timeSpawn:CGFloat = 1.5
+    var timeMoveDistance:CGFloat = 1.5
+    var itemMoveDistance:CGFloat = 256// bgSample.frame.width = 256
 
-    public let bgSample = SKSpriteNode(imageNamed: "bgSample")
+    let bgSample = SKSpriteNode(imageNamed: "bgSample")
     
-    public var score = 0
-    public var difficulty: Double = 1
+    var score = 0
+    var difficulty: Double = 1
     
     var isStarted = false
     var isPlayAgain = false
     var isJumping = false
+    var isOnGround = true
     var isWaiting = true
     
     override func didMove(to view: SKView) {
@@ -58,10 +60,10 @@ class GameScene: SKScene {
     }
     
     func addPlayer() {
-        
+    
         let player = SKSpriteNode(imageNamed: "pistacchioidle1")
-        
-        player.setScale(1/4)
+    
+        player.setScale(1/40)
     
         player.anchorPoint = CGPoint(x: 0, y: 0)
         player.position = CGPoint(x: player.frame.width + 100, y: 120)
@@ -173,19 +175,19 @@ class GameScene: SKScene {
     }
     
     func spawnIcecream(){
-    
-        print("icecream")
         
         //SHELFS POSITIONS y:  115, 163, 235
         let icecream = SKSpriteNode(imageNamed: "icecream1")
         let yPosition = [115, 163, 235]
         
         icecream.setScale(1/5)
-        
+
         icecream.anchorPoint = CGPoint(x: 0, y: 0)
         icecream.position = CGPoint(x: Int(4*bgSample.frame.width - icecream.frame.width/2) , y: yPosition.randomElement() ?? 0)
+        
         icecream.physicsBody = SKPhysicsBody(rectangleOf: icecream.size)
-
+        icecream.physicsBody?.contactTestBitMask = icecream.physicsBody?.collisionBitMask ?? 0
+        
         icecream.physicsBody?.isDynamic = false
         icecream.physicsBody?.allowsRotation = false
         icecream.physicsBody?.affectedByGravity = false
@@ -200,20 +202,21 @@ class GameScene: SKScene {
     
     func spawnPickle(){
         
-        print("pickle")
         let pickle = SKSpriteNode(imageNamed: "picklejar1")
-        let yPosition = [115, 163, 235]
+        let yPosition = [163, 235]
         
         pickle.setScale(1/5)
         
         pickle.anchorPoint = CGPoint(x: 0, y: 0)
         pickle.position = CGPoint(x: Int(4*bgSample.frame.width - pickle.frame.width/2) , y: yPosition.randomElement() ?? 0)
+        
         pickle.physicsBody = SKPhysicsBody(rectangleOf: pickle.size)
+        pickle.physicsBody?.contactTestBitMask = pickle.physicsBody?.collisionBitMask ?? 0
 
         pickle.physicsBody?.isDynamic = false
         pickle.physicsBody?.allowsRotation = false
         pickle.physicsBody?.affectedByGravity = false
-        
+
         moveItem(item: pickle)
         self.pickleAnimation(pickle: pickle)
         
